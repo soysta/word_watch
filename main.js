@@ -76,7 +76,7 @@ function attachToDesktop(browserWindow) {
 function createWindow() {
   const fullBounds = screen.getPrimaryDisplay().bounds;
 
-  mainWindow = new BrowserWindow({
+  const winOptions = {
     x: fullBounds.x,
     y: fullBounds.y,
     width: fullBounds.width,
@@ -90,7 +90,14 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true
     }
-  });
+  };
+
+  // Linux'ta type: 'desktop' ile wallpaper modu
+  if (process.platform === 'linux') {
+    winOptions.type = 'desktop';
+  }
+
+  mainWindow = new BrowserWindow(winOptions);
 
   mainWindow.loadFile('index.html');
 
