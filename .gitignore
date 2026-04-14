@@ -2,3 +2,8 @@ node_modules/
 dist/
 generate-icon.js
 generate-ico.js
+android/.gradle/
+android/app/build/
+android/wear/build/
+android/build/
+android/local.properties

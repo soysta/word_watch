@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kelime Saati</string>
+    <string name="settings_title">Kelime Saati Ayarları</string>
+    <string name="wallpaper_desc">Kelime Saati canlı duvar kağıdı - zamanı kelimelerle gösterir</string>
+    <string name="theme_title">Tema</string>
+    <string name="language_title">Dil</string>
+</resources>
