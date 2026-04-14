@@ -1,0 +1,49 @@
+{
+  "name": "kelime-saati",
+  "version": "1.0.0",
+  "description": "Kelime Saati - Word Clock masaüstü uygulaması",
+  "author": "Kelime Saati",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "set CSC_IDENTITY_AUTO_DISCOVERY=false && electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build:all": "set CSC_IDENTITY_AUTO_DISCOVERY=false && electron-builder --win --linux"
+  },
+  "build": {
+    "appId": "com.kelimesaati.app",
+    "productName": "Kelime Saati",
+    "files": [
+      "index.html",
+      "script.js",
+      "styles.css",
+      "main.js",
+      "node_modules/koffi/**"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "signAndEditExecutable": false
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "dependencies": {
+    "koffi": "^2.15.6"
+  }
+}

@@ -1,0 +1,887 @@
+/* ==================== TEMEL AYARLAR ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-app-region: no-drag;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease;
+  overflow-x: hidden;
+}
+
+/* ==================== TEMA TOGGLE BUTON ==================== */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+  z-index: 1000;
+  font-family: inherit;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== DİL TOGGLE BUTON ==================== */
+.lang-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+  z-index: 1000;
+  font-family: inherit;
+}
+
+.lang-toggle:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== TEMA PANELİ ==================== */
+.theme-panel {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 320px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 999;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.theme-panel.open {
+  right: 0;
+}
+
+.theme-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.theme-item {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  text-align: left;
+  color: #fff;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.theme-item:hover {
+  transform: translateX(-5px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.theme-item.active {
+  background: rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+  border-left: 4px solid #fff;
+}
+
+/* ==================== SAAT KONTEYNER ==================== */
+.clock-container {
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.5s ease;
+}
+
+#clock {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.letter {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.letter.on {
+  transform: scale(1.15);
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+#digital-time {
+  margin-top: 25px;
+  font-size: 16px;
+  text-align: center;
+  opacity: 0.7;
+  padding-top: 15px;
+  border-top: 1px solid currentColor;
+}
+
+@media (max-width: 600px) {
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  
+  .lang-toggle {
+    top: 10px;
+    left: 10px;
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+  
+  .theme-panel {
+    width: 260px;
+    right: -260px;
+  }
+  
+  .clock-container {
+    padding: 20px;
+  }
+  
+  #clock {
+    gap: 6px;
+  }
+  
+  .letter {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+  
+  #digital-time {
+    font-size: 14px;
+  }
+}
+
+/* ==================== TEMA 0: KLASİK (Kağıt & Kalem) ==================== */
+body.theme-0 {
+  background-color: #dcd7c9;
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  font-family: 'Architects Daughter', cursive;
+  color: #2c2c2c;
+}
+
+body.theme-0 .clock-container {
+  background-color: #f4f1ea;
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  box-shadow: 2px 2px 15px rgba(0,0,0,0.1), -1px -1px 5px rgba(255,255,255,0.5), inset 0 0 100px rgba(0,0,0,0.02);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+body.theme-0 .letter {
+  color: rgba(60, 60, 60, 0.2);
+}
+
+body.theme-0 .letter.on {
+  color: #2c2c2c;
+  font-weight: bold;
+}
+
+/* ==================== TEMA 1: GECE MODU ==================== */
+body.theme-1 {
+  background: linear-gradient(135deg, #0c0c1e 0%, #1a1a3e 50%, #0d0d2b 100%);
+  font-family: 'Share Tech Mono', monospace;
+  color: #a0c0ff;
+}
+
+body.theme-1 .clock-container {
+  background: rgba(15, 15, 35, 0.8);
+  border: 1px solid rgba(100, 150, 255, 0.2);
+  box-shadow: 0 0 40px rgba(50, 100, 255, 0.1);
+}
+
+body.theme-1 .letter {
+  color: rgba(100, 150, 255, 0.3);
+}
+
+body.theme-1 .letter.on {
+  color: #60a0ff;
+  text-shadow: 0 0 10px rgba(100, 160, 255, 0.8);
+}
+
+/* ==================== TEMA 2: OKYANUS ==================== */
+body.theme-2 {
+  background: linear-gradient(180deg, #006994 0%, #003366 100%);
+  font-family: 'Nunito', sans-serif;
+  color: #e0f0ff;
+}
+
+body.theme-2 .clock-container {
+  background: rgba(0, 50, 100, 0.6);
+  border: 2px solid rgba(100, 200, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 150, 255, 0.2);
+}
+
+body.theme-2 .letter {
+  color: rgba(150, 200, 255, 0.4);
+}
+
+body.theme-2 .letter.on {
+  color: #40e0ff;
+  text-shadow: 0 0 8px rgba(64, 224, 255, 0.6);
+}
+
+/* ==================== TEMA 3: NEON ==================== */
+body.theme-3 {
+  background: #0a0a0a;
+  font-family: 'Orbitron', sans-serif;
+  color: #ff00ff;
+}
+
+body.theme-3 .clock-container {
+  background: rgba(20, 20, 20, 0.9);
+  border: 2px solid #ff00ff;
+  box-shadow: 0 0 20px #ff00ff, inset 0 0 20px rgba(255, 0, 255, 0.1);
+}
+
+body.theme-3 .letter {
+  color: rgba(255, 0, 255, 0.2);
+}
+
+body.theme-3 .letter.on {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+}
+
+/* ==================== TEMA 4: RETRO OYUN ==================== */
+body.theme-4 {
+  background: #2d1b39;
+  font-family: 'Press Start 2P', cursive;
+  color: #00ff88;
+}
+
+body.theme-4 .clock-container {
+  background: #1a0f24;
+  border: 4px solid #00ff88;
+  box-shadow: 0 0 10px #00ff88;
+}
+
+body.theme-4 .letter {
+  color: rgba(0, 255, 136, 0.2);
+}
+
+body.theme-4 .letter.on {
+  color: #00ff88;
+  text-shadow: 2px 2px 0px rgba(0, 255, 136, 0.5);
+}
+
+/* ==================== TEMA 5: PASTEL ==================== */
+body.theme-5 {
+  background: linear-gradient(135deg, #ffe6e6 0%, #e6f3ff 50%, #e6ffe6 100%);
+  font-family: 'Fredoka One', cursive;
+  color: #6b5b95;
+}
+
+body.theme-5 .clock-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  border: 3px solid #ffb7b2;
+  box-shadow: 0 10px 30px rgba(107, 91, 149, 0.15);
+}
+
+body.theme-5 .letter {
+  color: rgba(107, 91, 149, 0.3);
+}
+
+body.theme-5 .letter.on {
+  color: #ff6f91;
+  text-shadow: 2px 2px 0px rgba(255, 111, 145, 0.3);
+}
+
+/* ==================== TEMA 6: ANTİK ==================== */
+body.theme-6 {
+  background: linear-gradient(180deg, #8b7355 0%, #5c4a3d 100%);
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
+}
+
+body.theme-6 .clock-container {
+  background: rgba(60, 45, 30, 0.9);
+  border: 3px solid #8b7355;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 50px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
+body.theme-6 .letter {
+  color: rgba(212, 175, 55, 0.3);
+}
+
+body.theme-6 .letter.on {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ==================== TEMA 7: UZAY ==================== */
+body.theme-7 {
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  font-family: 'Righteous', cursive;
+  color: #00ffff;
+}
+
+body.theme-7 .clock-container {
+  background: rgba(10, 15, 30, 0.8);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.1), inset 0 0 30px rgba(0, 100, 200, 0.2);
+}
+
+body.theme-7 .letter {
+  color: rgba(0, 255, 255, 0.25);
+}
+
+body.theme-7 .letter.on {
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+/* ==================== TEMA 8: RENKLİ ==================== */
+body.theme-8 {
+  background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff, #06d6a0, #ffbe0b);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+  font-family: 'VT323', monospace;
+  color: #fff;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body.theme-8 .clock-container {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+body.theme-8 .letter {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+body.theme-8 .letter.on {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== TEMA 9: MATRIX ==================== */
+body.theme-9 {
+  background: #000;
+  font-family: 'Share Tech Mono', monospace;
+  color: #00ff00;
+}
+
+body.theme-9 .clock-container {
+  background: rgba(0, 20, 0, 0.9);
+  border: 2px solid #00ff00;
+  box-shadow: 0 0 30px rgba(0, 255, 0, 0.3), inset 0 0 30px rgba(0, 255, 0, 0.1);
+}
+
+body.theme-9 .letter {
+  color: rgba(0, 255, 0, 0.2);
+}
+
+body.theme-9 .letter.on {
+  color: #00ff00;
+  text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00;
+}
+
+/* ==================== TEMA 10: GÜNEŞ DOĞUMU ==================== */
+body.theme-10 {
+  background: linear-gradient(180deg, #ff6b35 0%, #f7c548 50%, #f0e68c 100%);
+  font-family: 'Shrikhand', cursive;
+  color: #5d4037;
+}
+
+body.theme-10 .clock-container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  border: 3px solid #ff6b35;
+  box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+}
+
+body.theme-10 .letter {
+  color: rgba(93, 64, 55, 0.3);
+}
+
+body.theme-10 .letter.on {
+  color: #ff6b35;
+  text-shadow: 2px 2px 0px rgba(255, 107, 53, 0.3);
+}
+
+/* ==================== TEMA 11: MOR GECE ==================== */
+body.theme-11 {
+  background: linear-gradient(135deg, #2c003e 0%, #51006b 50%, #7b00a3 100%);
+  font-family: 'Audiowide', cursive;
+  color: #e0b0ff;
+}
+
+body.theme-11 .clock-container {
+  background: rgba(44, 0, 62, 0.8);
+  border: 2px solid #da70d6;
+  box-shadow: 0 0 30px rgba(218, 112, 214, 0.3);
+}
+
+body.theme-11 .letter {
+  color: rgba(224, 176, 255, 0.3);
+}
+
+body.theme-11 .letter.on {
+  color: #da70d6;
+  text-shadow: 0 0 15px rgba(218, 112, 214, 0.8);
+}
+
+/* ==================== TEMA 12: KAN KIRMIZISI ==================== */
+body.theme-12 {
+  background: linear-gradient(180deg, #3d0000 0%, #8b0000 100%);
+  font-family: 'Nosifer', cursive;
+  color: #ff4444;
+}
+
+body.theme-12 .clock-container {
+  background: rgba(61, 0, 0, 0.9);
+  border: 3px solid #ff0000;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+}
+
+body.theme-12 .letter {
+  color: rgba(255, 68, 68, 0.2);
+}
+
+body.theme-12 .letter.on {
+  color: #ff4444;
+  text-shadow: 0 0 10px #ff0000, 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+/* ==================== TEMA 13: ALTIN LÜKS ==================== */
+body.theme-13 {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  font-family: 'Cinzel', serif;
+  color: #ffd700;
+}
+
+body.theme-13 .clock-container {
+  background: rgba(30, 30, 30, 0.95);
+  border: 4px solid #ffd700;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+body.theme-13 .letter {
+  color: rgba(255, 215, 0, 0.2);
+}
+
+body.theme-13 .letter.on {
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* ==================== TEMA 14: BUZ MAVİSİ ==================== */
+body.theme-14 {
+  background: linear-gradient(180deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);
+  font-family: 'Iceberg', cursive;
+  color: #006064;
+}
+
+body.theme-14 .clock-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  border: 3px solid #00bcd4;
+  box-shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
+}
+
+body.theme-14 .letter {
+  color: rgba(0, 96, 100, 0.3);
+}
+
+body.theme-14 .letter.on {
+  color: #00bcd4;
+  text-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+}
+
+/* ==================== TEMA 15: ÇİMEN YEŞİLİ ==================== */
+body.theme-15 {
+  background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%);
+  font-family: 'Spectral', serif;
+  color: #c8e6c9;
+}
+
+body.theme-15 .clock-container {
+  background: rgba(27, 94, 32, 0.7);
+  border: 2px solid #4caf50;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+}
+
+body.theme-15 .letter {
+  color: rgba(200, 230, 201, 0.3);
+}
+
+body.theme-15 .letter.on {
+  color: #81c784;
+  text-shadow: 0 0 10px rgba(129, 199, 132, 0.6);
+}
+
+/* ==================== TEMA 16: SİBERPUNK ==================== */
+body.theme-16 {
+  background: linear-gradient(135deg, #0d0221 0%, #1a0533 50%, #2d0a47 100%);
+  font-family: 'Chakra Petch', sans-serif;
+  color: #00f5ff;
+}
+
+body.theme-16 .clock-container {
+  background: rgba(13, 2, 33, 0.9);
+  border: 2px solid #ff2a6d;
+  box-shadow: 0 0 30px rgba(255, 42, 109, 0.3), 0 0 60px rgba(0, 245, 255, 0.2);
+}
+
+body.theme-16 .letter {
+  color: rgba(0, 245, 255, 0.2);
+}
+
+body.theme-16 .letter.on {
+  color: #00f5ff;
+  text-shadow: 0 0 10px #00f5ff, 0 0 20px rgba(0, 245, 255, 0.5);
+}
+
+/* ==================== TEMA 17: PEMBE ŞEKER ==================== */
+body.theme-17 {
+  background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 50%, #ff69b4 100%);
+  font-family: 'Pacifico', cursive;
+  color: #880e4f;
+}
+
+body.theme-17 .clock-container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 25px;
+  border: 4px solid #ff69b4;
+  box-shadow: 0 10px 40px rgba(255, 105, 180, 0.3);
+}
+
+body.theme-17 .letter {
+  color: rgba(136, 14, 79, 0.3);
+}
+
+body.theme-17 .letter.on {
+  color: #ff69b4;
+  text-shadow: 2px 2px 0px rgba(255, 105, 180, 0.3);
+}
+
+/* ==================== TEMA 18: TURUNCU ENERJİ ==================== */
+body.theme-18 {
+  background: linear-gradient(180deg, #ff8c00 0%, #ff6600 100%);
+  font-family: 'Bangers', cursive;
+  color: #fff;
+}
+
+body.theme-18 .clock-container {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  border: 3px solid #ffcc00;
+  box-shadow: 0 10px 30px rgba(255, 204, 0, 0.3);
+}
+
+body.theme-18 .letter {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+body.theme-18 .letter.on {
+  color: #ffcc00;
+  text-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
+}
+
+/* ==================== TEMA 19: GRI TON ==================== */
+body.theme-19 {
+  background: linear-gradient(180deg, #424242 0%, #212121 100%);
+  font-family: 'Syncopate', sans-serif;
+  color: #bdbdbd;
+}
+
+body.theme-19 .clock-container {
+  background: rgba(30, 30, 30, 0.9);
+  border: 2px solid #757575;
+  box-shadow: 0 0 20px rgba(117, 117, 117, 0.2);
+}
+
+body.theme-19 .letter {
+  color: rgba(189, 189, 189, 0.3);
+}
+
+body.theme-19 .letter.on {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== TEMA 20: TROPİKAL ==================== */
+body.theme-20 {
+  background: linear-gradient(135deg, #00bfa5 0%, #009688 50%, #00796b 100%);
+  font-family: 'ZCOOL KuaiLe', cursive;
+  color: #e0f2f1;
+}
+
+body.theme-20 .clock-container {
+  background: rgba(0, 118, 100, 0.7);
+  border-radius: 20px;
+  border: 3px solid #4db6ac;
+  box-shadow: 0 10px 30px rgba(77, 182, 172, 0.3);
+}
+
+body.theme-20 .letter {
+  color: rgba(224, 242, 241, 0.3);
+}
+
+body.theme-20 .letter.on {
+  color: #80cbc4;
+  text-shadow: 0 0 10px rgba(128, 203, 196, 0.6);
+}
+
+/* ==================== TEMA 21: VİNTAGE ==================== */
+body.theme-21 {
+  background: linear-gradient(180deg, #d7ccc8 0%, #a1887f 100%);
+  font-family: 'Henny Penny', cursive;
+  color: #3e2723;
+}
+
+body.theme-21 .clock-container {
+  background: rgba(255, 248, 225, 0.9);
+  border: 3px solid #8d6e63;
+  box-shadow: 0 10px 30px rgba(141, 110, 99, 0.3);
+  border-radius: 10px;
+}
+
+body.theme-21 .letter {
+  color: rgba(62, 39, 35, 0.3);
+}
+
+body.theme-21 .letter.on {
+  color: #5d4037;
+  text-shadow: 1px 1px 0px rgba(93, 64, 55, 0.3);
+}
+
+/* ==================== TEMA 22: ELEKTRİK MAVİ ==================== */
+body.theme-22 {
+  background: #000033;
+  font-family: 'Bungee', cursive;
+  color: #0066ff;
+}
+
+body.theme-22 .clock-container {
+  background: rgba(0, 0, 51, 0.9);
+  border: 3px solid #0066ff;
+  box-shadow: 0 0 40px rgba(0, 102, 255, 0.4);
+}
+
+body.theme-22 .letter {
+  color: rgba(0, 102, 255, 0.2);
+}
+
+body.theme-22 .letter.on {
+  color: #0066ff;
+  text-shadow: 0 0 15px #0066ff, 0 0 30px rgba(0, 102, 255, 0.5);
+}
+
+/* ==================== TEMA 23: DOĞAL AHŞAP ==================== */
+body.theme-23 {
+  background: linear-gradient(180deg, #8b4513 0%, #5c3317 100%);
+  font-family: 'Ewert', cursive;
+  color: #deb887;
+}
+
+body.theme-23 .clock-container {
+  background: rgba(92, 51, 23, 0.9);
+  border: 4px solid #a0522d;
+  box-shadow: 0 0 30px rgba(160, 82, 45, 0.3);
+}
+
+body.theme-23 .letter {
+  color: rgba(222, 184, 135, 0.3);
+}
+
+body.theme-23 .letter.on {
+  color: #deb887;
+  text-shadow: 0 0 10px rgba(222, 184, 135, 0.5);
+}
+
+/* ==================== TEMA 24: PİKSEL SANATI ==================== */
+body.theme-24 {
+  background: #1a1a2e;
+  font-family: 'Silkscreen', cursive;
+  color: #e94560;
+}
+
+body.theme-24 .clock-container {
+  background: rgba(22, 33, 62, 0.9);
+  border: 4px solid #e94560;
+  box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+}
+
+body.theme-24 .letter {
+  color: rgba(233, 69, 96, 0.2);
+}
+
+body.theme-24 .letter.on {
+  color: #e94560;
+  text-shadow: 2px 2px 0px rgba(233, 69, 96, 0.5);
+}
+
+/* ==================== TEMA 25: GÖKKUŞAĞI ==================== */
+body.theme-25 {
+  background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  background-size: 700% 700%;
+  animation: rainbowShift 8s ease infinite;
+  font-family: 'Frijole', cursive;
+  color: #fff;
+}
+
+@keyframes rainbowShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body.theme-25 .clock-container {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+body.theme-25 .letter {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+body.theme-25 .letter.on {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+/* ==================== TEMA 26: KARANLIK MOD ==================== */
+body.theme-26 {
+  background: #121212;
+  font-family: 'Alfa Slab One', cursive;
+  color: #bb86fc;
+}
+
+body.theme-26 .clock-container {
+  background: rgba(30, 30, 30, 0.9);
+  border: 2px solid #bb86fc;
+  box-shadow: 0 0 20px rgba(187, 134, 252, 0.2);
+}
+
+body.theme-26 .letter {
+  color: rgba(187, 134, 252, 0.2);
+}
+
+body.theme-26 .letter.on {
+  color: #bb86fc;
+  text-shadow: 0 0 10px rgba(187, 134, 252, 0.5);
+}
+
+/* ==================== TEMA 27: DENİZ KIYISI ==================== */
+body.theme-27 {
+  background: linear-gradient(180deg, #87ceeb 0%, #20b2aa 50%, #f4a460 100%);
+  font-family: 'Jim Nightshade', cursive;
+  color: #2f4f4f;
+}
+
+body.theme-27 .clock-container {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 25px;
+  border: 3px solid #20b2aa;
+  box-shadow: 0 10px 30px rgba(32, 178, 170, 0.3);
+}
+
+body.theme-27 .letter {
+  color: rgba(47, 79, 79, 0.3);
+}
+
+body.theme-27 .letter.on {
+  color: #20b2aa;
+  text-shadow: 0 0 10px rgba(32, 178, 170, 0.4);
+}
+
+/* ==================== TEMA 28: KIZILGEZEGEN ==================== */
+body.theme-28 {
+  background: linear-gradient(180deg, #c1440e 0%, #8b3109 100%);
+  font-family: 'Gloria Hallelujah', cursive;
+  color: #ffcc99;
+}
+
+body.theme-28 .clock-container {
+  background: rgba(139, 49, 9, 0.8);
+  border: 3px solid #e85d04;
+  box-shadow: 0 0 30px rgba(232, 93, 4, 0.4);
+}
+
+body.theme-28 .letter {
+  color: rgba(255, 204, 153, 0.3);
+}
+
+body.theme-28 .letter.on {
+  color: #ffcc99;
+  text-shadow: 0 0 10px rgba(255, 204, 153, 0.6);
+}
+
+/* ==================== TEMA 29: KLASİK KOYU (Kağıt & Kalem Ters) ==================== */
+body.theme-29 {
+  background-color: #2c2c2c;
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  font-family: 'Architects Daughter', cursive;
+  color: #dcd7c9;
+}
+
+body.theme-29 .clock-container {
+  background-color: #1a1a1a;
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  box-shadow: 2px 2px 15px rgba(0,0,0,0.4), -1px -1px 5px rgba(255,255,255,0.05), inset 0 0 100px rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+body.theme-29 .letter {
+  color: rgba(220, 215, 201, 0.15);
+}
+
+body.theme-29 .letter.on {
+  color: #f4f1ea;
+  font-weight: bold;
+}
