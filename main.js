@@ -106,13 +106,7 @@ function createWindow() {
 
 // ==================== TRAY MENÜSÜ ====================
 function createTray() {
-  const icon = nativeImage.createFromDataURL(
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA' +
-    'mklEQVQ4y2NgGAWDATAyMDD8J0YzExMT43+S9DMxMTH+J9UAJmIMMICBgYHhPzEuYGJi' +
-    'YvxPrAFMpBhgQMgAJlIMIGgAEzEGMOAzgImJifE/MQYw4DOAiRgDGPAZwESMAQz4DGAi' +
-    'xgAGfAYwEWMAAz4DmIgxgIGBgeE/MQYwEWMAAz4DmIgxgAGfAUykGDAKBgsAAM7WTEGZ' +
-    'jSYeAAAAAElFTkSuQmCC'
-  );
+  const icon = nativeImage.createFromPath(path.join(__dirname, 'icon-tray.png'));
 
   tray = new Tray(icon);
   tray.setToolTip('Kelime Saati');

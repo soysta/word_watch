@@ -13,11 +13,14 @@
   "build": {
     "appId": "com.kelimesaati.app",
     "productName": "Kelime Saati",
+    "icon": "icon.png",
     "files": [
       "index.html",
       "script.js",
       "styles.css",
       "main.js",
+      "icon.png",
+      "icon-tray.png",
       "node_modules/koffi/**"
     ],
     "win": {
@@ -25,6 +28,7 @@
         "nsis",
         "portable"
       ],
+      "icon": "icon.ico",
       "signAndEditExecutable": false
     },
     "linux": {
