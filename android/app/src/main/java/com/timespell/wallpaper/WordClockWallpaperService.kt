@@ -84,18 +84,41 @@ class WordClockWallpaperService : WallpaperService() {
             val cols = grid[0].length
             val rows = grid.size
 
-            // Kare alan hesapla (ortaya yerleştir)
-            val cellSize = minOf(w / cols, h * 0.7f / rows)
-            val gridW = cellSize * cols
-            val gridH = cellSize * rows
-            val offsetX = (w - gridW) / 2f
-            // Kilit ekranı modunda grid'i aşağı kaydır (Android saatinin altına)
-            val offsetY = if (pushDown) {
-                h * 0.38f // Üstten %38 aşağıda başla — Android saat alanının altı
-            } else {
-                (h - gridH) / 2f
-            }
+            if (pushDown) {
+                // Kilit ekranı: üst %35 Android saati, alt %10 kilit ikonu, kalan alan word clock
+                val topMargin = h * 0.35f
+                val bottomMargin = h * 0.12f
+                val sideMargin = w * 0.05f
+                val availW = w - sideMargin * 2
+                val availH = h - topMargin - bottomMargin
+                val cellSize = minOf(availW / cols, availH / rows)
+                val gridW = cellSize * cols
+                val gridH = cellSize * rows
+                val offsetX = (w - gridW) / 2f
+                val offsetY = topMargin + (availH - gridH) / 2f
 
+                drawGrid(canvas, grid, activePositions, theme, cellSize, offsetX, offsetY)
+            } else {
+                // Normal wallpaper: ortala
+                val cellSize = minOf(w / cols, h * 0.7f / rows)
+                val gridW = cellSize * cols
+                val gridH = cellSize * rows
+                val offsetX = (w - gridW) / 2f
+                val offsetY = (h - gridH) / 2f
+
+                drawGrid(canvas, grid, activePositions, theme, cellSize, offsetX, offsetY)
+            }
+        }
+
+        private fun drawGrid(
+            canvas: Canvas,
+            grid: Array<String>,
+            activePositions: Set<Pair<Int, Int>>,
+            theme: ClockTheme,
+            cellSize: Float,
+            offsetX: Float,
+            offsetY: Float
+        ) {
             val offPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                 color = theme.offColor
                 textSize = cellSize * 0.55f

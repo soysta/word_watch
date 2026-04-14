@@ -1,16 +1,20 @@
-# ⏰ TimeSpell — Word Clock Wallpaper
+# ⏰ TimeSpell — Word Clock
 
-Zamanı kelimelerle gösteren, masaüstü duvar kağıdı olarak çalışan bir saat uygulaması. Türkçe ve İngilizce dil desteği ile 30 farklı tema içerir.
+Zamanı kelimelerle gösteren çok platformlu saat uygulaması.
+
+**Platformlar:** Windows • Linux • Android (Duvar Kağıdı + Ekran Koruyucu) • Wear OS (Saat Yüzü)
 
 ## ✨ Özellikler
 
 - 🕐 Saati kelimelerle gösterir (5 dakika hassasiyetle)
 - 🇹🇷 Türkçe ve 🇬🇧 İngilizce dil desteği
-- 🎨 30 farklı tema (Klasik, Neon, Matrix, Retro, Siberpunk vb.)
-- 🖥️ Windows masaüstü arkaplanı olarak çalışır (simgelerin arkasında)
-- 🔽 Sistem tepsisinden (tray) tema ve dil kontrolü
+- 🎨 Masaüstü: 30 tema • Android: 30 tema • Wear OS: 12 tema
+- 🖥️ Windows/Linux masaüstü arkaplanı olarak çalışır
+- 📱 Android canlı duvar kağıdı + kilit ekranı desteği
+- 🌙 Android ekran koruyucu (Dream Service)
+- ⌚ Wear OS saat yüzü (temaya göre font ve arka plan değişir)
 
-## 📸 Ekran Görüntüsü
+## 📸 Örnek
 
 ```
 S A A T   B İ R İ
@@ -21,37 +25,54 @@ G E Ç İ Y O R
 
 ## 🚀 Kurulum
 
-### Hazır İndir (Windows)
+### Windows / Linux
 
-[Releases](https://github.com/soysta/word_watch/releases) sayfasından `.exe` dosyasını indirin.
+[Releases](https://github.com/soysta/word_watch/releases) sayfasından indirin:
 
-| Dosya | Açıklama |
+| Dosya | Platform |
 |-------|----------|
-| `TimeSpell Setup X.X.X.exe` | Kurulum sihirbazı |
-| `TimeSpell X.X.X.exe` | Taşınabilir (kurulum gerektirmez) |
+| `TimeSpell Setup X.X.X.exe` | Windows Kurulum |
+| `TimeSpell X.X.X.exe` | Windows Taşınabilir |
+| `TimeSpell-X.X.X.AppImage` | Linux |
+| `timespell_X.X.X_amd64.deb` | Ubuntu/Debian |
+
+### Android
+
+Google Play Store'dan veya Releases sayfasından APK/AAB indirin.
 
 ### Kaynak Koddan Çalıştır
 
 ```bash
+# Masaüstü (Electron)
 git clone https://github.com/soysta/word_watch.git
 cd word_watch
 npm install
 npm start
+
+# Android (Gradle)
+cd android
+./gradlew :app:assembleRelease
+./gradlew :wear:assembleRelease
 ```
 
-### Build Al
+### Build
 
 ```bash
 # Windows installer + portable
 npm run build:win
 
-# Linux AppImage + deb (Linux ortamında çalıştırılmalı)
+# Linux AppImage + deb
 npm run build:linux
+
+# Android release AAB
+cd android
+./gradlew :app:bundleRelease
+./gradlew :wear:bundleRelease
 ```
 
-Oluşan dosyalar `dist/` klasöründe bulunur.
-
 ## 🎮 Kullanım
+
+### Masaüstü
 
 Uygulama başlatıldığında otomatik olarak masaüstü arkaplanına yerleşir.
 
@@ -60,7 +81,18 @@ Uygulama başlatıldığında otomatik olarak masaüstü arkaplanına yerleşir.
 - 🎨 **Temalar** — 30 tema arasından seçim
 - **Çıkış** — Uygulamayı kapat
 
-## 🎨 Temalar
+### Android
+
+- **Ayarlar** uygulamasından tema, dil ve kilit ekranı tercihi seçin
+- **Duvar kağıdı** veya **ekran koruyucu** olarak ayarlayın
+
+### Wear OS
+
+- Saat yüzü olarak **TimeSpell** seçin
+- Saat yüzüne uzun basarak **tema** değiştirin
+- Her tema kendine özgü renk, arka plan ve font içerir
+
+## 🎨 Masaüstü & Android Temaları (30)
 
 | | | | |
 |---|---|---|---|
@@ -73,11 +105,44 @@ Uygulama başlatıldığında otomatik olarak masaüstü arkaplanına yerleşir.
 | 👾 Piksel | 🌈 Gökküşağı | 🌑 Kara Mod | 🏖️ Deniz |
 | 🔴 Kızıl Gezegen | 🖋️ Klasik Koyu | | |
 
+## ⌚ Wear OS Temaları (12)
+
+| | | | |
+|---|---|---|---|
+| 🌙 Gece | 🌊 Okyanus | 🔥 Neon | 🎮 Retro |
+| 💚 Matrix | ✨ Altın | 🩸 Kırmızı | 💜 Mor Gece |
+| 🤖 Siberpunk | 🍊 Turuncu | ⚫ Gri Ton | ⚡ Elektrik |
+
 ## 🛠️ Teknolojiler
 
-- **Electron** — Masaüstü uygulaması
-- **koffi** — Windows API (wallpaper katmanına yerleştirme)
-- **HTML/CSS/JS** — Arayüz
+| Platform | Teknoloji |
+|----------|-----------|
+| Masaüstü | Electron, koffi (Windows API), HTML/CSS/JS |
+| Android | Kotlin, Canvas API, WallpaperService, DreamService |
+| Wear OS | Kotlin, WatchFace API, CanvasRenderer |
+
+## 📁 Proje Yapısı
+
+```
+├── main.js              # Electron ana süreç
+├── index.html           # Web arayüzü
+├── script.js            # Saat mantığı + temalar (web)
+├── styles.css           # 30 tema CSS tanımları
+├── package.json         # Electron yapılandırma
+└── android/
+    ├── app/             # Android canlı duvar kağıdı
+    │   └── src/main/java/com/timespell/wallpaper/
+    │       ├── WordClockWallpaperService.kt
+    │       ├── WordClockThemes.kt    # 30 tema tanımı
+    │       ├── WordClockLogic.kt     # TR/EN saat mantığı
+    │       ├── WordClockData.kt      # Grid ve kelime pozisyonları
+    │       ├── WordClockDreamService.kt  # Ekran koruyucu
+    │       └── SettingsActivity.kt   # Ayarlar ekranı
+    └── wear/            # Wear OS saat yüzü
+        └── src/main/java/com/timespell/wear/
+            ├── WordClockWatchFaceService.kt  # 12 tema + renderer
+            └── WatchFaceConfigActivity.kt    # Tema seçim ekranı
+```
 
 ## 📄 Lisans
 

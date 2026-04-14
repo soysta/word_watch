@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TimeSpell</string>
+    <string name="color_style_name">Color</string>
+    <string name="color_style_desc">Choose accent color</string>
 </resources>
