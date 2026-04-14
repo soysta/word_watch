@@ -1,13 +1,18 @@
 package com.timespell.wallpaper
 
+import android.app.WallpaperManager
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.service.wallpaper.WallpaperService
+import android.util.DisplayMetrics
 import android.view.SurfaceHolder
+import android.view.WindowManager
 import java.util.Calendar
 
 class WordClockWallpaperService : WallpaperService() {
@@ -17,6 +22,7 @@ class WordClockWallpaperService : WallpaperService() {
         private val handler = Handler(Looper.getMainLooper())
         private val drawRunner = Runnable { draw() }
         private var visible = false
+        private var lastLockScreenMinKey = ""
 
         private val prefs by lazy {
             getSharedPreferences("timespell_prefs", MODE_PRIVATE)
@@ -50,13 +56,16 @@ class WordClockWallpaperService : WallpaperService() {
                     holder.unlockCanvasAndPost(canvas)
                 }
             }
+            // Kilit ekranını güncelle (sadece saat değiştiğinde)
+            updateLockScreenIfNeeded()
+
             handler.removeCallbacks(drawRunner)
             if (visible) {
                 handler.postDelayed(drawRunner, 15000) // 15 saniyede bir güncelle
             }
         }
 
-        private fun drawClock(canvas: Canvas) {
+        private fun drawClock(canvas: Canvas, pushDown: Boolean = false) {
             val lang = prefs.getString("language", "tr") ?: "tr"
             val themeIdx = prefs.getInt("theme", 1) // varsayilan: Gece
 
@@ -79,7 +88,12 @@ class WordClockWallpaperService : WallpaperService() {
             val gridW = cellSize * cols
             val gridH = cellSize * rows
             val offsetX = (w - gridW) / 2f
-            val offsetY = (h - gridH) / 2f
+            // Kilit ekranı modunda grid'i aşağı kaydır (Android saatinin altına)
+            val offsetY = if (pushDown) {
+                h * 0.38f // Üstten %38 aşağıda başla — Android saat alanının altı
+            } else {
+                (h - gridH) / 2f
+            }
 
             val offPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                 color = theme.offColor
@@ -118,6 +132,39 @@ class WordClockWallpaperService : WallpaperService() {
                 WordClockLogic.getActiveTR(h, roundedM)
             } else {
                 WordClockLogic.getActiveEN(h, roundedM)
+            }
+        }
+
+        private fun updateLockScreenIfNeeded() {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return
+            if (!prefs.getBoolean("lock_screen", false)) return
+
+            val cal = Calendar.getInstance()
+            val h = cal.get(Calendar.HOUR_OF_DAY)
+            val m = cal.get(Calendar.MINUTE)
+            val roundedM = (Math.round(m / 5.0) * 5).toInt()
+            val key = "$h:$roundedM:${prefs.getInt("theme", 1)}:${prefs.getString("language", "tr")}"
+
+            if (key == lastLockScreenMinKey) return
+            lastLockScreenMinKey = key
+
+            try {
+                val wm = getSystemService(WINDOW_SERVICE) as WindowManager
+                val metrics = DisplayMetrics()
+                @Suppress("DEPRECATION")
+                wm.defaultDisplay.getRealMetrics(metrics)
+                val w = metrics.widthPixels
+                val h2 = metrics.heightPixels
+
+                val bitmap = Bitmap.createBitmap(w, h2, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                drawClock(canvas, pushDown = true)
+
+                val wallpaperManager = WallpaperManager.getInstance(this@WordClockWallpaperService)
+                wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                bitmap.recycle()
+            } catch (e: Exception) {
+                // Sessizce devam et
             }
         }
     }

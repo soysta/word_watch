@@ -4,9 +4,11 @@ import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.app.Activity
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
@@ -70,6 +72,21 @@ class SettingsActivity : Activity() {
         langSpinner.setSelection(if (prefs.getString("language", "tr") == "en") 1 else 0)
         layout.addView(langSpinner)
 
+        // Kilit ekranı seçeneği
+        val lockCheck = CheckBox(this).apply {
+            text = "🔒 Kilit ekranında da göster"
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+            setTextColor(0xFFe0e0e0.toInt())
+            isChecked = prefs.getBoolean("lock_screen", false)
+            val lp = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            lp.topMargin = 32
+            layoutParams = lp
+        }
+        layout.addView(lockCheck)
+
         // Kaydet ve uygula butonu
         val applyBtn = Button(this).apply {
             text = "Duvar Kağıdı Olarak Ayarla"
@@ -86,6 +103,7 @@ class SettingsActivity : Activity() {
             prefs.edit()
                 .putInt("theme", themeSpinner.selectedItemPosition)
                 .putString("language", if (langSpinner.selectedItemPosition == 1) "en" else "tr")
+                .putBoolean("lock_screen", lockCheck.isChecked)
                 .apply()
 
             val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
@@ -113,10 +131,36 @@ class SettingsActivity : Activity() {
             prefs.edit()
                 .putInt("theme", themeSpinner.selectedItemPosition)
                 .putString("language", if (langSpinner.selectedItemPosition == 1) "en" else "tr")
+                .putBoolean("lock_screen", lockCheck.isChecked)
                 .apply()
             finish()
         }
         layout.addView(saveBtn)
+
+        // Ekran koruyucu olarak ayarla
+        val dreamBtn = Button(this).apply {
+            text = "🌙 Ekran Koruyucu Olarak Ayarla"
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            val lp = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            lp.topMargin = 16
+            layoutParams = lp
+        }
+        dreamBtn.setOnClickListener {
+            prefs.edit()
+                .putInt("theme", themeSpinner.selectedItemPosition)
+                .putString("language", if (langSpinner.selectedItemPosition == 1) "en" else "tr")
+                .putBoolean("lock_screen", lockCheck.isChecked)
+                .apply()
+            try {
+                startActivity(Intent(Settings.ACTION_DREAM_SETTINGS))
+            } catch (_: Exception) {
+                // Cihaz desteklemiyorsa sessizce geç
+            }
+        }
+        layout.addView(dreamBtn)
 
         setContentView(layout)
     }
