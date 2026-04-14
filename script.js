@@ -1,4 +1,4 @@
-// ==================== KELIME SAATI VERİLERİ ====================
+// ==================== TIMESPELL VERİLERİ ====================
 const GRID = [
   "ITLISXATHPMA",
   "ACFIFTEENDCO",
@@ -42,7 +42,7 @@ const WORDS = {
 
 const HOUR_KEYS = ['TWELVE','ONE','TWO','THREE','FOUR','FIVE_H','SIX','SEVEN','EIGHT','NINE','TEN_H','ELEVEN','TWELVE'];
 
-// ==================== TÜRKÇE KELIME SAATI VERİLERİ ====================
+// ==================== TÜRKÇE TIMESPELL VERİLERİ ====================
 const GRID_TR = [
   "SAATXASOYSTASO", // 0
   "BİRİXİKİYİXÜÇÜ", // 1 (Saatler -i)

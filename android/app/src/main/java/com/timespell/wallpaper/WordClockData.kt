@@ -1,4 +1,4 @@
-package com.kelimesaati.wallpaper
+package com.timespell.wallpaper
 
 object WordClockData {
     val GRID_EN = arrayOf(

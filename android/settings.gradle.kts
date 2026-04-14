@@ -13,6 +13,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "KelimeSaati"
+rootProject.name = "TimeSpell"
 include(":app")
 include(":wear")

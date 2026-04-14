@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kelimesaati.wallpaper"
+    namespace = "com.timespell.wallpaper"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.kelimesaati.wallpaper"
+        applicationId = "com.timespell.wallpaper"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

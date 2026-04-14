@@ -1,4 +1,4 @@
-package com.kelimesaati.wallpaper
+package com.timespell.wallpaper
 
 import android.app.WallpaperManager
 import android.content.ComponentName
@@ -16,7 +16,7 @@ import android.util.TypedValue
 class SettingsActivity : Activity() {
 
     private val prefs by lazy {
-        getSharedPreferences("kelimesaati_prefs", MODE_PRIVATE)
+        getSharedPreferences("timespell_prefs", MODE_PRIVATE)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +31,7 @@ class SettingsActivity : Activity() {
 
         // Title
         val title = TextView(this).apply {
-            text = "⏰ Kelime Saati"
+            text = "⏰ TimeSpell"
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
             setTextColor(0xFFe0e0e0.toInt())
             gravity = Gravity.CENTER

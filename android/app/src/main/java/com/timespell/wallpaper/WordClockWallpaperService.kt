@@ -1,4 +1,4 @@
-package com.kelimesaati.wallpaper
+package com.timespell.wallpaper
 
 import android.graphics.Canvas
 import android.graphics.Color
@@ -19,7 +19,7 @@ class WordClockWallpaperService : WallpaperService() {
         private var visible = false
 
         private val prefs by lazy {
-            getSharedPreferences("kelimesaati_prefs", MODE_PRIVATE)
+            getSharedPreferences("timespell_prefs", MODE_PRIVATE)
         }
 
         override fun onVisibilityChanged(isVisible: Boolean) {

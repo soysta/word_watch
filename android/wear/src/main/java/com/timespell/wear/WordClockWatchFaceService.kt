@@ -1,4 +1,4 @@
-package com.kelimesaati.wear
+package com.timespell.wear
 
 import android.graphics.Canvas
 import android.graphics.Color

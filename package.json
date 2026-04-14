@@ -1,7 +1,7 @@
 {
-  "name": "kelime-saati",
+  "name": "timespell",
   "version": "1.0.0",
-  "description": "Kelime Saati - Word Clock masaüstü uygulaması",
+  "description": "TimeSpell - Word Clock masaüstü uygulaması",
   "author": "soysta",
   "license": "MIT",
   "main": "main.js",
@@ -12,8 +12,8 @@
     "build:all": "set CSC_IDENTITY_AUTO_DISCOVERY=false && electron-builder --win --linux"
   },
   "build": {
-    "appId": "com.kelimesaati.app",
-    "productName": "Kelime Saati",
+    "appId": "com.timespell.app",
+    "productName": "TimeSpell",
     "icon": "icon.png",
     "files": [
       "index.html",

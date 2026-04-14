@@ -1,1 +1,1 @@
--keep class com.kelimesaati.wallpaper.** { *; }
+-keep class com.timespell.wallpaper.** { *; }

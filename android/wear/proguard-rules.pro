@@ -1,1 +1,1 @@
--keep class com.kelimesaati.wear.** { *; }
+-keep class com.timespell.wear.** { *; }

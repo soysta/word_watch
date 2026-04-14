@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kelimesaati.wear"
+    namespace = "com.timespell.wear"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.kelimesaati.wear"
+        applicationId = "com.timespell.wear"
         minSdk = 30
         targetSdk = 36
         versionCode = 1

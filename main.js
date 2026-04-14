@@ -116,7 +116,7 @@ function createTray() {
   const icon = nativeImage.createFromPath(path.join(__dirname, 'icon-tray.png'));
 
   tray = new Tray(icon);
-  tray.setToolTip('Kelime Saati');
+  tray.setToolTip('TimeSpell');
   buildTrayMenu();
 }
 
@@ -133,7 +133,7 @@ function buildTrayMenu() {
   }));
 
   const contextMenu = Menu.buildFromTemplate([
-    { label: '⏰ Kelime Saati', enabled: false },
+    { label: '⏰ TimeSpell', enabled: false },
     { type: 'separator' },
     {
       label: '🇹🇷 Dil Değiştir (TR/EN)',

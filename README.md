@@ -1,4 +1,4 @@
-# ⏰ Kelime Saati — Word Clock Wallpaper
+# ⏰ TimeSpell — Word Clock Wallpaper
 
 Zamanı kelimelerle gösteren, masaüstü duvar kağıdı olarak çalışan bir saat uygulaması. Türkçe ve İngilizce dil desteği ile 30 farklı tema içerir.
 
@@ -27,8 +27,8 @@ G E Ç İ Y O R
 
 | Dosya | Açıklama |
 |-------|----------|
-| `Kelime Saati Setup X.X.X.exe` | Kurulum sihirbazı |
-| `Kelime Saati X.X.X.exe` | Taşınabilir (kurulum gerektirmez) |
+| `TimeSpell Setup X.X.X.exe` | Kurulum sihirbazı |
+| `TimeSpell X.X.X.exe` | Taşınabilir (kurulum gerektirmez) |
 
 ### Kaynak Koddan Çalıştır
 
