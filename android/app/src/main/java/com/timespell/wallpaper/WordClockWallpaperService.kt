@@ -11,6 +11,7 @@ import android.os.Handler
 import android.os.Looper
 import android.service.wallpaper.WallpaperService
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.SurfaceHolder
 import android.view.WindowManager
 import java.util.Calendar
@@ -136,6 +137,7 @@ class WordClockWallpaperService : WallpaperService() {
         }
 
         private fun updateLockScreenIfNeeded() {
+            Log.d("TimeSpell", "updateLockScreen called, SDK=${Build.VERSION.SDK_INT}, lock_screen=${prefs.getBoolean("lock_screen", false)}")
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return
             if (!prefs.getBoolean("lock_screen", false)) return
 
@@ -145,6 +147,7 @@ class WordClockWallpaperService : WallpaperService() {
             val roundedM = (Math.round(m / 5.0) * 5).toInt()
             val key = "$h:$roundedM:${prefs.getInt("theme", 1)}:${prefs.getString("language", "tr")}"
 
+            Log.d("TimeSpell", "key=$key, lastKey=$lastLockScreenMinKey")
             if (key == lastLockScreenMinKey) return
             lastLockScreenMinKey = key
 
@@ -156,15 +159,17 @@ class WordClockWallpaperService : WallpaperService() {
                 val w = metrics.widthPixels
                 val h2 = metrics.heightPixels
 
+                Log.d("TimeSpell", "Creating bitmap ${w}x${h2}")
                 val bitmap = Bitmap.createBitmap(w, h2, Bitmap.Config.ARGB_8888)
                 val canvas = Canvas(bitmap)
                 drawClock(canvas, pushDown = true)
 
                 val wallpaperManager = WallpaperManager.getInstance(this@WordClockWallpaperService)
                 wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                Log.d("TimeSpell", "Lock screen bitmap set OK")
                 bitmap.recycle()
             } catch (e: Exception) {
-                // Sessizce devam et
+                Log.e("TimeSpell", "Lock screen error", e)
             }
         }
     }
