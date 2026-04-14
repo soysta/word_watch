@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.view.SurfaceHolder
+import androidx.core.content.res.ResourcesCompat
 import androidx.wear.watchface.CanvasType
 import androidx.wear.watchface.ComplicationSlotsManager
 import androidx.wear.watchface.Renderer
@@ -20,7 +21,7 @@ import androidx.wear.watchface.style.WatchFaceLayer
 import java.time.ZonedDateTime
 import kotlin.math.sqrt
 
-data class WearTheme(val id: String, val name: String, val onColor: String, val offColor: String, val bgColor: String, val font: String)
+data class WearTheme(val id: String, val name: String, val onColor: String, val offColor: String, val bgColor: String, val font: String, val fontRes: Int = 0)
 
 class WordClockWatchFaceService : WatchFaceService() {
 
@@ -31,9 +32,9 @@ class WordClockWatchFaceService : WatchFaceService() {
             WearTheme("night",    "Gece",       "#60a0ff", "#1a3060", "#0c0c1e",  "monospace"),
             WearTheme("ocean",    "Okyanus",    "#40e0ff", "#0a3050", "#003366",  "sans-serif"),
             WearTheme("neon",     "Neon",       "#ff00ff", "#301030", "#0a0a0a",  "sans-serif-condensed"),
-            WearTheme("retro",    "Retro",      "#00ff88", "#0a2018", "#2d1b39",  "monospace"),
-            WearTheme("matrix",   "Matrix",     "#00ff00", "#003300", "#000000",  "monospace"),
-            WearTheme("gold",     "Altın",      "#ffd700", "#302810", "#1a1a1a",  "serif"),
+            WearTheme("retro",    "Retro",      "#00ff88", "#0a2018", "#2d1b39",  "monospace", R.font.press_start_2p_regular),
+            WearTheme("matrix",   "Matrix",     "#00ff00", "#003300", "#000000",  "monospace", R.font.vt323_regular),
+            WearTheme("gold",     "Altın",      "#ffd700", "#302810", "#1a1a1a",  "serif",     R.font.cinzel_bold),
             WearTheme("blood",    "Kırmızı",    "#ff4444", "#301010", "#1a0000",  "sans-serif-medium"),
             WearTheme("purple",   "Mor Gece",   "#da70d6", "#201040", "#2c003e",  "sans-serif-light"),
             WearTheme("cyber",    "Siberpunk",  "#00f5ff", "#0a1530", "#0d0221",  "sans-serif-condensed"),
@@ -73,10 +74,20 @@ class WordClockWatchFaceService : WatchFaceService() {
         complicationSlotsManager: ComplicationSlotsManager,
         currentUserStyleRepository: CurrentUserStyleRepository
     ): WatchFace {
+        // Pre-load custom fonts from resources
+        val customFonts = mutableMapOf<Int, Typeface>()
+        for (theme in THEMES) {
+            if (theme.fontRes != 0 && theme.fontRes !in customFonts) {
+                ResourcesCompat.getFont(applicationContext, theme.fontRes)?.let {
+                    customFonts[theme.fontRes] = it
+                }
+            }
+        }
         val renderer = WordClockRenderer(
             surfaceHolder = surfaceHolder,
             watchState = watchState,
-            currentUserStyleRepository = currentUserStyleRepository
+            currentUserStyleRepository = currentUserStyleRepository,
+            customFonts = customFonts
         )
         return WatchFace(WatchFaceType.DIGITAL, renderer)
     }
@@ -84,7 +95,8 @@ class WordClockWatchFaceService : WatchFaceService() {
     class WordClockRenderer(
         surfaceHolder: SurfaceHolder,
         watchState: WatchState,
-        currentUserStyleRepository: CurrentUserStyleRepository
+        currentUserStyleRepository: CurrentUserStyleRepository,
+        private val customFonts: Map<Int, Typeface>
     ) : Renderer.CanvasRenderer2<Renderer.SharedAssets>(
         surfaceHolder = surfaceHolder,
         currentUserStyleRepository = currentUserStyleRepository,
@@ -229,7 +241,11 @@ class WordClockWatchFaceService : WatchFaceService() {
                 color = offColor
                 textSize = cellSize * 0.62f
                 textAlign = Paint.Align.CENTER
-                typeface = Typeface.create(theme.font, Typeface.BOLD)
+                typeface = if (theme.fontRes != 0) {
+                    customFonts[theme.fontRes] ?: Typeface.create(theme.font, Typeface.BOLD)
+                } else {
+                    Typeface.create(theme.font, Typeface.BOLD)
+                }
             }
 
             val onPaint = Paint(offPaint).apply {
